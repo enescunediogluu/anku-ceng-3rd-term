@@ -1,6 +1,5 @@
 import re
 
-# Define the table
 table = [['State', 'id', '+', '*', '(', ')', '$', 'E', 'T', 'F'],
           [0, 'S5', 0, 0, 'S4', 0, 0, 1, 2, 3],
           [1, 0, 'S6', 0, 0, 0, 'accept', 0, 0, 0],
@@ -16,11 +15,9 @@ table = [['State', 'id', '+', '*', '(', ')', '$', 'E', 'T', 'F'],
           [11, 0, 'R5', 'R5', 0, 'R5', 'R5', 0, 0, 0]
           ]
 
-# Create a dictionary to store the table
 dictionary = {}
 headerList = ['State', 'id', '+', '*', '(', ')', '$', 'E', 'T', 'F']
 
-# Grammar dictionary
 grammer = {}
 grammer['R1'] = ('E', ['E', '+', 'T'])
 grammer['R2'] = ('E', ['T'])
@@ -29,7 +26,6 @@ grammer['R4'] = ('T', ['F'])
 grammer['R5'] = ('F', ['(', 'E', ')'])
 grammer['R6'] = ('F', ['id'])
 
-# Enter the table into the dictionary
 for row in table:
     key = row[0]
     value = row[1:]
@@ -58,7 +54,7 @@ def shift(action):
 
 
 def reduce(action):
-    global stack  # Declare stack as a global variable
+    global stack  
     stack.pop()
 
     rule = grammer[action]
@@ -68,10 +64,7 @@ def reduce(action):
         tempIndex = stack.index(temp)
         stack[tempIndex] = convert
         
-         # Replace the top of the stack with the non-terminal
-
     elif len(rule[1]) == 3:
-
         convert = rule[0]
         if len(stack) >= 3:
             index1 = stack.index(rule[1][0])
@@ -81,7 +74,7 @@ def reduce(action):
                 stack = stack[:index1] + [convert] + stack[index2 + 1:]
 
 
-    if len(stack) >= 2:  # Check if there are at least two elements in stack
+    if len(stack) >= 2: 
         if type(stack[-1]) == str:
             temp = dictionary[stack[-2]][headerList.index(stack[-1])-1]
             stack.append(temp)
